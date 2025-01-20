@@ -27,9 +27,6 @@ my_error_exit (j_common_ptr cinfo) {
     longjmp(myerr->setjmp_buffer, 1);
 }
 
-// В эту функцию вставлен код примера из библиотеки libjpeg.
-// Измените его, чтобы адаптировать к переменным file и image.
-// Задание качества уберите - будет использовано качество по умолчанию
 bool SaveJPEG(const Path& file, const Image& image) 
 {
     jpeg_compress_struct cinfo;
@@ -39,11 +36,10 @@ bool SaveJPEG(const Path& file, const Image& image)
     JSAMPROW row_pointer[1];
     int row_stride;
 
-    // Инициализация структуры ошибок
     cinfo.err = jpeg_std_error(&jerr);
     jpeg_create_compress(&cinfo);
 
-    // Открытие файла
+
 #ifdef _MSC_VER
     if ((outfile = _wfopen(file.wstring().c_str(), L"wb")) == nullptr) {
 #else
@@ -54,21 +50,17 @@ bool SaveJPEG(const Path& file, const Image& image)
     }
     jpeg_stdio_dest(&cinfo, outfile);
 
-    // Параметры изображения
     cinfo.image_width = image.GetWidth();
     cinfo.image_height = image.GetHeight();
     cinfo.input_components = 3;
     cinfo.in_color_space = JCS_RGB;
 
-    // Установка параметров по умолчанию
     jpeg_set_defaults(&cinfo);
 
-    // Запуск сжатия
     jpeg_start_compress(&cinfo, TRUE);
 
     row_stride = image.GetWidth() * 3;
 
-    // Проход по строкам изображения
     while (cinfo.next_scanline < cinfo.image_height) {
         std::vector<JSAMPLE> row(row_stride);
         const Color* line = image.GetLine(cinfo.next_scanline);
@@ -81,7 +73,6 @@ bool SaveJPEG(const Path& file, const Image& image)
         jpeg_write_scanlines(&cinfo, row_pointer, 1);
     }
 
-    // Завершение сжатия
     jpeg_finish_compress(&cinfo);
     fclose(outfile);
     jpeg_destroy_compress(&cinfo);
@@ -89,7 +80,6 @@ bool SaveJPEG(const Path& file, const Image& image)
     return true;
 }
 
-// тип JSAMPLE фактически псевдоним для unsigned char
 void SaveSсanlineToImage(const JSAMPLE* row, int y, Image& out_image) {
     Color* line = out_image.GetLine(y);
     for (int x = 0; x < out_image.GetWidth(); ++x) {
