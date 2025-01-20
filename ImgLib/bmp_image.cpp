@@ -15,7 +15,7 @@ PACKED_STRUCT_BEGIN BitmapFileHeader
     char sign2 = 'M'; 
     uint32_t file_size = 0; 
     uint32_t reserved_space = 0; 
-    uint32_t indention = 0; // 
+    uint32_t indention = 0; 
 }
 PACKED_STRUCT_END
 
