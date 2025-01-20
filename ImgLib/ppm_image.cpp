@@ -40,17 +40,12 @@ Image LoadPPM(const Path& file) {
     std::string sign;
     int w, h, color_max;
 
-    // читаем заголовок: он содержит формат, размеры изображения
-    // и максимальное значение цвета
     ifs >> sign >> w >> h >> color_max;
 
-    // мы поддерживаем изображения только формата P6
-    // с максимальным значением цвета 255
     if (sign != PPM_SIG || color_max != PPM_MAX) {
         return {};
     }
 
-    // пропускаем один байт - это конец строки
     const char next = ifs.get();
     if (next != '\n') {
         return {};
