@@ -11,7 +11,7 @@ using namespace std;
 const string JPG = ".jpg";
 const string JPEG = ".jpeg";
 const string PPM = ".ppm";
-const string BPM = ".bmp";
+const string BMP = ".bmp";
 
 enum class Format { JPEG, PPM, BMP, UNKNOWN };
  
@@ -24,7 +24,7 @@ Format GetFormatByExtension(const img_lib::Path& input_file) {
     if (ext == PPM) {
         return Format::PPM;
     }
-    if (ext == BPM) {
+    if (ext == BMP) {
         return Format::BMP;
     }
  
