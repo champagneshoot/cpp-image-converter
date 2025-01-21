@@ -7,19 +7,24 @@
 #include <string_view>
  
 using namespace std;
- 
+
+const string JPG = ".jpg";
+const string JPEG = ".jpeg";
+const string PPM = ".ppm";
+const string BPM = ".bmp";
+
 enum class Format { JPEG, PPM, BMP, UNKNOWN };
  
 Format GetFormatByExtension(const img_lib::Path& input_file) {
     const string ext = input_file.extension().string();
     
-    if (ext == ".jpg"sv || ext == ".jpeg"sv) {
+    if (ext == JPG || ext == JPEG) {
         return Format::JPEG;
     }
-    if (ext == ".ppm"sv) {
+    if (ext == PPM) {
         return Format::PPM;
     }
-    if (ext == ".bmp"sv) {
+    if (ext == BPM) {
         return Format::BMP;
     }
  
@@ -73,10 +78,6 @@ const ImageFormatInterface* GetFormatInterface(const img_lib::Path& path) {
     
     Format format = GetFormatByExtension(path);
     
-    if (format == Format::UNKNOWN) {
-        return nullptr;
-    }
- 
     static const format_interfaces::PPM ppmInterface;
     static const format_interfaces::JPEG jpegInterface;
     static const format_interfaces::BMP bmpInterface;
