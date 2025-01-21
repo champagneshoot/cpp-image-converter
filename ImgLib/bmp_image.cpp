@@ -7,12 +7,16 @@
 
 using namespace std;
 
+const char first_part_of_the_signature = 'B';
+const char second_part_of_the_signature = 'M';
+
 namespace img_lib {
 
 PACKED_STRUCT_BEGIN BitmapFileHeader
 {
-    char sign1 = 'B'; 
-    char sign2 = 'M'; 
+    /* https://docs.fileformat.com/image/bmp/ */
+    char sign1 = first_part_of_the_signature; 
+    char sign2 = second_part_of_the_signature; 
     uint32_t file_size = 0; 
     uint32_t reserved_space = 0; 
     uint32_t indention = 0; 
